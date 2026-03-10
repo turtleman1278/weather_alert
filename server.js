@@ -1,4 +1,4 @@
-import express, { response } from 'express'
+import express from 'express'
 import dotenv from 'dotenv'
 
 dotenv.config();
@@ -18,44 +18,58 @@ app.get(`/api/weather`, async (req, res) =>{
     try{
         const zip = req.query.zip;
         if(!zip) {
-            console.error(`Status: ${res.status}. Please enter a zip code!`);
+            return res.status(400).json({ message: "Error Please enter a zip code!" });
         } 
         
         //Geolocator API- gets our longitude and latitude 
-        const locationURL = new url(  
-          `http://api.openweathermap.org/geo/1.0/zip?`
+        const locationURL = new URL(  
+          `https://api.openweathermap.org/geo/1.0/zip?`
         );
         locationURL.searchParams.set("zip", `${zip},US`);
         locationURL.searchParams.set("appid", api_key);
         const locationResponse = await fetch(locationURL);
         const locationData = await locationResponse.json();
         if(!locationResponse.ok){
-            console.error(`Status: ${locationResponse.status}. Error, could not pull data.`)
+            return res.status(locationResponse.status).json({
+                message: locationData.message || "Error, could not pull location data."
+            });
         } 
 
         const longData = locationData.lon;
         const latData = locationData.lat; 
 
         //current weather data API 
-        const weatherCurrentURL = new url(`https://api.openweathermap.org/data/2.5/weather?lat=${latData}&lon=${longData}`);
+        const weatherCurrentURL = new URL(`https://api.openweathermap.org/data/2.5/weather?lat=${latData}&lon=${longData}`);
         weatherCurrentURL.searchParams.set("units", "imperial");
         weatherCurrentURL.searchParams.set("appid", api_key);
         const weatherCurrentResponse = await fetch(weatherCurrentURL);
+        const weatherCurrentData = await weatherCurrentResponse.json(); 
         if(!weatherCurrentResponse.ok){
-            console.error(`Status: ${weatherCurrentResponse.status}. Error, could not pull data.`)
+            return res.status(weatherCurrentResponse.status).json({
+                message: weatherCurrentData.message || "Error, could not pull current weather data."
+            });
         } 
 
         //Forcast API
-        const weatherForcastURL = new url(`https://api.openweathermap.org/data/2.5/forecast?lat=${latData}&lon=${longData}`);
+        const weatherForcastURL = new URL(`https://api.openweathermap.org/data/2.5/forecast?lat=${latData}&lon=${longData}`);
         weatherForcastURL.searchParams.set("units", "imperial");
         weatherForcastURL.searchParams.set("appid", api_key);
         const weatherForcastResponse = await fetch(weatherForcastURL);
+        const weatherForcastData = await weatherForcastResponse.json();
         if(!weatherForcastResponse.ok){
-            console.error(`Status: ${weatherForcastResponse.status}. Error, could not pull data.`)
+            return res.status(weatherForcastResponse.status).json({
+                message: weatherForcastData.message || "Error, could not pull forecast data."
+            });
         } 
 
-    } catch(err) {
+        return res.json({
+            location: locationData,
+            current: weatherCurrentData,
+            forecast: weatherForcastData
+        });
 
+    } catch(err) {
+        return res.status(500).json({message: 'Internal server error'})
     }
     
 });
