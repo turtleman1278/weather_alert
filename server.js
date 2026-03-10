@@ -1,12 +1,11 @@
 import express, { response } from 'express'
 import dotenv from 'dotenv'
-import { url } from 'node:inspector';
 
 dotenv.config();
 
 const app = express(); 
-const port = process.env.PORT || 3000; 
-const api_key = process.env.API_key; 
+const PORT = process.env.PORT || 3000; 
+const api_key = process.env.API_KEY; 
 
 if (!api_key) {
     console.error(`Missing API key`);
@@ -24,10 +23,12 @@ app.get(`/api/weather`, async (req, res) =>{
         
         //Geolocator API- gets our longitude and latitude 
         const locationURL = new url(  
-          `http://api.openweathermap.org/geo/1.0/zip?zip=${#}`
+          `http://api.openweathermap.org/geo/1.0/zip?`
         );
+        locationURL.searchParams.set("zip", `${zip},US`);
+        locationURL.searchParams.set("appid", api_key);
         const locationResponse = await fetch(locationURL);
-        const locationData = await locationResponseresponse.json();
+        const locationData = await locationResponse.json();
         if(!locationResponse.ok){
             console.error(`Status: ${locationResponse.status}. Error, could not pull data.`)
         } 
@@ -44,9 +45,6 @@ app.get(`/api/weather`, async (req, res) =>{
             console.error(`Status: ${weatherCurrentResponse.status}. Error, could not pull data.`)
         } 
 
-        
-
-
         //Forcast API
         const weatherForcastURL = new url(`https://api.openweathermap.org/data/2.5/forecast?lat=${latData}&lon=${longData}`);
         weatherForcastURL.searchParams.set("units", "imperial");
@@ -56,9 +54,11 @@ app.get(`/api/weather`, async (req, res) =>{
             console.error(`Status: ${weatherForcastResponse.status}. Error, could not pull data.`)
         } 
 
-        
-
     } catch(err) {
 
     }
+    
 });
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`)});
