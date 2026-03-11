@@ -23,12 +23,13 @@ app.get(`/api/weather`, async (req, res) =>{
         
         //Geolocator API- gets our longitude and latitude 
         const locationURL = new URL(  
-          `https://api.openweathermap.org/geo/1.0/zip?`
+          `https://api.openweathermap.org/geo/1.0/zip`
         );
         locationURL.searchParams.set("zip", `${zip},US`);
         locationURL.searchParams.set("appid", api_key);
         const locationResponse = await fetch(locationURL);
         const locationData = await locationResponse.json();
+
         if(!locationResponse.ok){
             return res.status(locationResponse.status).json({
                 message: locationData.message || "Error, could not pull location data."

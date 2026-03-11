@@ -1,26 +1,38 @@
-async function fetchData() {
-  try {
-    const locationResponse = await fetch(`http://api.openweathermap.org/geo/1.0/zip?zip=48152`);
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=44.34&lon=10.99&units=imperial&appid=48ac09a0f305b4b4d18c22b2a4822899`,
-    );
+const zipCode = document.getElementById("zip_code"); 
+const zipBtn = document.getElementById('btn-zip');
+const info = document.getElementById('weather_information');
 
-    if (!response.ok) {
+async function fetchData(zip) {
+
+  try {
+    if(!zip) {
+        info.textContent = "Please enter a zip code. "
+        return;
+    }
+
+    const locationResponse = await fetch(`/api/weather?zip=${zip}`);
+    const geoData = await locationResponse.json();
+    
+
+    if (!locationResponse.ok) {
       throw new Error(
-        `Error in fetching data. Status code: ${response.status} ${response.statusText}`,
+        `Error in fetching data. Status code: ${locationResponse.status} ${locationResponse.statusText}`,
       );
     }
 
-    const data = await response.json();
-    console.log(`Status: ${response.status} ${response.statusText}`);
-    console.log(data);
+    info.innerHTML = `
+    <h2>${geoData.location.name}</h2>
+    <p>Temp: ${geoData.current.main.temp} F</p>
+    <p>Condition: ${geoData.current.weather[0].description}</p>
+    `;
 
-    // const weather = (document.getElementById(
-    //   "weather_information",
-    // ).textContent = JSON.stringify(data, null, 2));
+
   } catch (error) {
     console.error(error);
   }
 }
 
-fetchData();
+zipBtn.addEventListener('click', () => {
+    fetchData(zipCode.value);
+});
+
