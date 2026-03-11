@@ -69,7 +69,7 @@ app.get(`/api/weather`, async (req, res) =>{
               "Error, could not pull current weather data.",
           });
         } 
-
+        
         
         //Forcast API
         const weatherForcastURL = new URL(`https://api.openweathermap.org/data/2.5/forecast?lat=${latData}&lon=${longData}`);
