@@ -21,7 +21,7 @@ async function fetchData(zip) {
     }
 
     info.innerHTML = `
-    <h2>${geoData.location.name}</h2>
+    <h2>${geoData.location.name}, ${geoData.state}</h2>
     <p>Temp: ${geoData.current.main.temp} F</p>
     <p>Condition: ${geoData.current.weather[0].description}</p>
     `;
