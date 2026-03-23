@@ -24,6 +24,15 @@ async function fetchData(zip) {
     <h2>${geoData.location.name}, ${geoData.state}</h2>
     <p>Temp: ${geoData.current.main.temp} F</p>
     <p>Condition: ${geoData.current.weather[0].description}</p>
+    <p>Day One</p>
+    <p>Forecast: ${geoData.forecast.list[0].weather[0].description}</p>
+    <p>Forecast: ${geoData.forecast.list[0].main.temp} F</p>
+    <p>Day Two</p>
+    <p>Forecast: ${geoData.forecast.list[1].weather[0].description}</p>
+    <p>Forecast: ${geoData.forecast.list[1].main.temp} F</p>
+    <p>Day Three</p>
+    <p>Forecast: ${geoData.forecast.list[2].weather[0].description}</p>
+    <p>Forecast: ${geoData.forecast.list[2].main.temp} F</p>
     `;
 
 

@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv'
 
+//loads content of .env to process.env
 dotenv.config();
 
 const app = express(); 
