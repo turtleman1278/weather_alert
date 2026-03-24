@@ -42,6 +42,8 @@ const forecast5_4 = document.getElementById("forecasted_weather_5_4");
 const forecast5_5 = document.getElementById("forecasted_weather_5_5");
 const forecast5_6 = document.getElementById("forecasted_weather_5_6");
 
+const weatherAlerts = document.getElementById("weather-alerts");
+
 async function fetchData(zip) {
 
   try {
@@ -68,6 +70,9 @@ async function fetchData(zip) {
     <p> Low: ${Math.trunc(geoData.current.main.temp_min)} F</p>
     <p>Condition: ${geoData.current.weather[0].description}</p>
     `;
+
+    weatherAlerts.innerHTML = `
+    `; 
 
     forecast1_1.innerHTML = `<p>Date: ${geoData.forecast.list[1].dt_txt}</p>
     <p>Forecast: ${geoData.forecast.list[1].weather[0].description}</p>
