@@ -150,6 +150,26 @@ h1 {
     box-shadow: 0 24px 48px rgba(21, 112, 239, 0.24);
 }
 
+.alert-status {
+    color: #90ee90;
+}
+
+.alert-severity {
+  color: #ffb703;
+}
+
+.alert-event {
+  color: #ffd60a;
+}
+
+.alert-headline {
+  color: #ffadad;
+}
+
+.alert-meta {
+  color: #caf0f8;
+}
+
 #forecasted_weather_1,
 #forecasted_weather_2,
 #forecasted_weather_3,

@@ -74,19 +74,23 @@ async function fetchData(zip) {
     const alerts = geoData.alert?.features ?? [];
 
     weatherAlerts.innerHTML = alerts.length
-      ? alerts.map(({ properties }, index) => `
+      ? alerts
+          .map(
+            ({ properties }, index) => `
       <div class="weather-alert">
-      <h3 style="color: red;">Alert ${index + 1}</h3>
-      <p>Status: ${properties?.status ?? "N/A"}</p>
-      <p>Severity: ${properties?.severity ?? "N/A"}</p>
-      <p>Event: ${properties?.event ?? "N/A"}</p>
-      <p>Headline: ${properties?.headline ?? "N/A"}</p>
-      <p>Description: ${properties?.description ?? "N/A"}</p>
-      <p>Area: ${properties?.areaDesc ?? "N/A"}</p>
-      <p>Onset: ${properties?.onset ?? "N/A"}</p>
-      <p>Ends: ${properties?.ends ?? "N/A"}</p>
-    </div>
-    `).join("") : `<p>No active alerts for this area.</p>`; 
+      <h2 style="color: red;">Alert ${index + 1}</h3>
+      <p class="alert-status">Status: ${properties?.status ?? "N/A"}</p>
+      <p class="alert-severity">Severity: ${properties?.severity ?? "N/A"}</p>
+      <p class="alert-event">Event: ${properties?.event ?? "N/A"}</p>
+      <p class="alert-headline">Headline: ${properties?.headline ?? "N/A"}</p>
+      <p class="alert-meta">Description: ${properties?.description ?? "N/A"}</p>
+      <p class="alert-meta">Area: ${properties?.areaDesc ?? "N/A"}</p>
+      <p class="alert-meta">Onset: ${properties?.onset ?? "N/A"}</p>
+      <p class="alert-meta">Ends: ${properties?.ends ?? "N/A"}</p>
+      </div>`,
+          )
+          .join("")
+      : `<p>No active alerts for this area.</p>`; 
 
     forecast1_1.innerHTML = `<p>Date: ${geoData.forecast.list[1].dt_txt}</p>
     <p>Forecast: ${geoData.forecast.list[1].weather[0].description}</p>
