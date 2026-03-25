@@ -74,9 +74,8 @@ async function fetchData(zip) {
     const alerts = geoData.alert?.features ?? [];
 
     weatherAlerts.innerHTML = alerts.length
-      ? alerts
-          .map(({ properties }, index) => `
-    <div class="weather-alert">
+      ? alerts.map(({ properties }, index) => `
+      <div class="weather-alert">
       <h3>Alert ${index + 1}</h3>
       <p>Status: ${properties?.status ?? "N/A"}</p>
       <p>Severity: ${properties?.severity ?? "N/A"}</p>
