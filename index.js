@@ -76,7 +76,7 @@ async function fetchData(zip) {
     weatherAlerts.innerHTML = alerts.length
       ? alerts.map(({ properties }, index) => `
       <div class="weather-alert">
-      <h3>Alert ${index + 1}</h3>
+      <h3 style="color: red;">Alert ${index + 1}</h3>
       <p>Status: ${properties?.status ?? "N/A"}</p>
       <p>Severity: ${properties?.severity ?? "N/A"}</p>
       <p>Event: ${properties?.event ?? "N/A"}</p>
