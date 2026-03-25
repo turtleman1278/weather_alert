@@ -71,8 +71,25 @@ async function fetchData(zip) {
     <p>Condition: ${geoData.current.weather[0].description}</p>
     `;
 
-    weatherAlerts.innerHTML = `
-    `; 
+    const alerts = geoData.alert?.features ?? [];
+
+    weatherAlerts.innerHTML = alerts.length
+      ? alerts
+          .map(({ properties }, index) => `
+    <div class="weather-alert">
+      <h3>Alert ${index + 1}</h3>
+      <p>Status: ${properties?.status ?? "N/A"}</p>
+      <p>Severity: ${properties?.severity ?? "N/A"}</p>
+      <p>Event: ${properties?.event ?? "N/A"}</p>
+      <p>Headline: ${properties?.headline ?? "N/A"}</p>
+      <p>Description: ${properties?.description ?? "N/A"}</p>
+      <p>Area: ${properties?.areaDesc ?? "N/A"}</p>
+      <p>Onset: ${properties?.onset ?? "N/A"}</p>
+      <p>Ends: ${properties?.ends ?? "N/A"}</p>
+    </div>
+    `)
+          .join("")
+      : `<p>No active alerts for this area.</p>`; 
 
     forecast1_1.innerHTML = `<p>Date: ${geoData.forecast.list[1].dt_txt}</p>
     <p>Forecast: ${geoData.forecast.list[1].weather[0].description}</p>
@@ -292,6 +309,8 @@ async function fetchData(zip) {
 
   } catch (error) {
     console.error(error);
+    info.textContent = "Unable to load weather information right now.";
+    weatherAlerts.textContent = "";
   }
 }
 

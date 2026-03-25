@@ -139,6 +139,17 @@ h1 {
     line-height: 1.5;
 }
 
+#weather-alerts {
+    min-height: 180px;
+    padding: 28px;
+    border-radius: 28px;
+    background:
+        linear-gradient(135deg, rgba(21, 112, 239, 0.9), rgba(8, 145, 178, 0.88)),
+        white;
+    color: white;
+    box-shadow: 0 24px 48px rgba(21, 112, 239, 0.24);
+}
+
 #forecasted_weather_1,
 #forecasted_weather_2,
 #forecasted_weather_3,

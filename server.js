@@ -91,7 +91,7 @@ app.get(`/api/weather`, async (req, res) =>{
         //weather alerts
         const weatherAlertURL = new URL(`https://api.weather.gov/alerts/active?area=${stateCode}`);
         const weatherAlertResponse = await fetch(weatherAlertURL);
-        const weatherAlertData = weatherAlertResponse.json();
+        const weatherAlertData = await weatherAlertResponse.json();
 
         if (!weatherAlertResponse.ok) {
           return res.status(weatherAlertResponse.status).json({
