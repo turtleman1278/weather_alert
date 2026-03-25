@@ -7,9 +7,6 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 const api_key = process.env.API_KEY;
-const weatherGovUserAgent =
-  process.env.WEATHER_GOV_USER_AGENT ||
-  "weather-project/1.0 (contact: example@example.com)";
 
 if (!api_key) {
     console.error(`Missing API key`);
@@ -93,25 +90,13 @@ app.get(`/api/weather`, async (req, res) =>{
 
         //weather alerts
         const weatherAlertURL = new URL(`https://api.weather.gov/alerts/active?area=${stateCode}`);
-        let weatherAlertData = { features: [] };
+        const weatherAlertResponse = await fetch(weatherAlertURL);
+        const weatherAlertData = await weatherAlertResponse.json();
 
-        try {
-          const weatherAlertResponse = await fetch(weatherAlertURL, {
-            headers: {
-              "User-Agent": weatherGovUserAgent,
-              Accept: "application/geo+json",
-            },
+        if (!weatherAlertResponse.ok) {
+          return res.status(weatherAlertResponse.status).json({
+            message: "Error, could not pull weather alerts.",
           });
-
-          if (weatherAlertResponse.ok) {
-            weatherAlertData = await weatherAlertResponse.json();
-          } else {
-            console.error(
-              `Weather alerts request failed with status ${weatherAlertResponse.status}`,
-            );
-          }
-        } catch (alertErr) {
-          console.error("Weather alerts request failed:", alertErr);
         }
 
 
