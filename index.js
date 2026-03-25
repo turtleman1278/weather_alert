@@ -86,9 +86,7 @@ async function fetchData(zip) {
       <p>Onset: ${properties?.onset ?? "N/A"}</p>
       <p>Ends: ${properties?.ends ?? "N/A"}</p>
     </div>
-    `)
-          .join("")
-      : `<p>No active alerts for this area.</p>`; 
+    `).join("") : `<p>No active alerts for this area.</p>`; 
 
     forecast1_1.innerHTML = `<p>Date: ${geoData.forecast.list[1].dt_txt}</p>
     <p>Forecast: ${geoData.forecast.list[1].weather[0].description}</p>
