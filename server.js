@@ -1,8 +1,14 @@
 import express from 'express'
 import dotenv from 'dotenv'
+import OpenAI from "openai";
+import { traceProcessWarnings } from 'process';
 
 //loads content of .env to process.env
 dotenv.config();
+
+const openai = new OpenAI ({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -114,6 +120,24 @@ app.get(`/api/weather`, async (req, res) =>{
           console.error("Weather alerts request failed:", alertErr);
         }
 
+        const llmResponse = await openai.responses.create({
+          model: "gpt-4.1-mini",
+          input: `This is a weather assistant.
+        
+        Current weather:
+        ${JSON.stringify(weatherCurrentData)}
+        
+        Forecast:
+        ${JSON.stringify(weatherForcastData.list.slice(0, 5))}
+        
+        Alerts:
+        ${JSON.stringify(weatherAlertData.features)}
+        
+        Give a short summary of:
+        - current weather
+        - what to expect today
+        - any warnings`
+        });
 
         //top-level keys
         return res.json({
@@ -122,6 +146,7 @@ app.get(`/api/weather`, async (req, res) =>{
             forecast: weatherForcastData,
             state: stateCode,
             alert: weatherAlertData,
+            summary: llmResponse.output_text,
 
         });
 
