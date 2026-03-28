@@ -119,10 +119,12 @@ app.get(`/api/weather`, async (req, res) =>{
         } catch (alertErr) {
           console.error("Weather alerts request failed:", alertErr);
         }
-
-        const llmResponse = await openai.responses.create({
-          model: "gpt-4.1-mini",
-          input: `This is a weather assistant.
+        
+      let llmResponseText = null;
+        try {
+          const llmResponse = await openai.responses.create({
+            model: "gpt-4.1-mini",
+            input: `This is a weather assistant.
         
         Current weather:
         ${JSON.stringify(weatherCurrentData)}
@@ -138,6 +140,13 @@ app.get(`/api/weather`, async (req, res) =>{
         - what to expect today
         - any warnings`
         });
+
+          llmResponseText = llmResponse.output_text;
+        } catch (error) {
+          console.error("LLM error:", error);
+
+          llmResponseText = "Weather unavailable at the moment.";
+        }
 
         //top-level keys
         return res.json({
