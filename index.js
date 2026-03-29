@@ -43,6 +43,7 @@ const forecast5_5 = document.getElementById("forecasted_weather_5_5");
 const forecast5_6 = document.getElementById("forecasted_weather_5_6");
 
 const weatherAlerts = document.getElementById("weather-alerts");
+const llmSummary = document.getElementById("llm-summary");
 
 async function fetchData(zip) {
 
@@ -69,6 +70,11 @@ async function fetchData(zip) {
     <p> High: ${Math.trunc(geoData.current.main.temp_max)} F</p>
     <p> Low: ${Math.trunc(geoData.current.main.temp_min)} F</p>
     <p>Condition: ${geoData.current.weather[0].description}</p>
+    `;
+
+    llmSummary.innerHTML = `
+    <h2>Weather Summary</h2>
+    <p>${geoData.summary ?? "No weather summary available."}</p>
     `;
 
     const alerts = geoData.alert?.features ?? [];

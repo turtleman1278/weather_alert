@@ -1,7 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import OpenAI from "openai";
-import { traceProcessWarnings } from 'process';
 
 //loads content of .env to process.env
 dotenv.config();
@@ -138,7 +137,8 @@ app.get(`/api/weather`, async (req, res) =>{
         Give a short summary of:
         - current weather
         - what to expect today
-        - any warnings`
+        - any warnings and affected areas
+        - provide safety adivce for the wearther alert`
         });
 
           llmResponseText = llmResponse.output_text;
@@ -155,7 +155,7 @@ app.get(`/api/weather`, async (req, res) =>{
             forecast: weatherForcastData,
             state: stateCode,
             alert: weatherAlertData,
-            summary: llmResponse.output_text,
+            summary: llmResponseText,
 
         });
 
