@@ -50,12 +50,12 @@ jobs:
       - name: Terraform validate
         run: terraform validate
 
-      - name: Terraform plan
-        run: terraform plan
+      # - name: Terraform plan
+      #   run: terraform plan
 
-      - name: Terraform apply
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: terraform apply -auto-approve
+      # - name: Terraform apply
+      #   if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      #   run: terraform apply -auto-approve
 
   deploy:
     runs-on: ubuntu-latest
