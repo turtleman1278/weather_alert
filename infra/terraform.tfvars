@@ -1,0 +1,12 @@
+aws_region                 = "us-east-1"
+project_name               = "weather-alert"
+instance_name              = "weather_forcast"
+ami_id                     = "ami-02dfbd4ff395f2a1b"
+instance_type              = "t3.micro"
+subnet_id                  = "subnet-07ac2af8a13e961bd"
+key_name                   = "weather-app-key"
+security_group_name        = "launch-wizard-1"
+security_group_description = "launch-wizard-1 created 2026-03-11T19:46:01.368Z"
+app_port                   = 3000
+allowed_ssh_cidr           = "73.191.215.70/32"
+http_port                  = 80

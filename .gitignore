@@ -1,2 +1,9 @@
 .env
 node_modules
+.terraform/
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+*.tfvars.json
